@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 34
+    
+    defaultConfig {
+        applicationId "com.onyx.client"
+        minSdk 24
+        targetSdk 34
+        versionCode 2
+        versionName "2.0.0-ULTRA"
+        
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // ULTRA OPTIMIZATION FLAGS
+        ndk {
+            debugSymbolLevel 'none' // Remove debug symbols for smaller APK
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+            
+            // AGGRESSIVE OPTIMIZATION
+            ndk {
+                debugSymbolLevel 'none'
+            }
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    buildFeatures {
+        viewBinding true
+        compose false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-*.pro'
+    }
+}
+
+dependencies {
+    // Core Android
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    
+    // Material Design
+    implementation 'com.google.android.material:material:1.11.0'
+    
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    
+    // Coroutines (Async optimization)
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+    
+    // File handling & storage
+    implementation 'androidx.documentfile:documentfile:1.0.1'
+    
+    // JSON parsing
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Networking
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    
+    // OpenGL (GPU optimization)
+    implementation 'androidx.opengl:opengl:1.1.0'
+    
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
