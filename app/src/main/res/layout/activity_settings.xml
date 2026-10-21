@@ -4,7 +4,7 @@
     android:id="@+id/modulesRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#12161b"
+    android:background="#111821"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -72,7 +72,7 @@
                 android:id="@+id/categoryAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#2a3039"
+                android:background="@drawable/chip_selected"
                 android:padding="10dp"
                 android:text="All"
                 android:textColor="#F3F5FA"
@@ -83,10 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:background="#1b2027"
+                android:background="@drawable/chip_unselected"
                 android:padding="10dp"
                 android:text="Visual HUD"
-                android:textColor="#F3F5FA"
+                android:textColor="#7f8898"
                 android:textSize="14sp" />
 
             <TextView
@@ -94,10 +94,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:background="#1b2027"
+                android:background="@drawable/chip_unselected"
                 android:padding="10dp"
                 android:text="Performance"
-                android:textColor="#F3F5FA"
+                android:textColor="#7f8898"
                 android:textSize="14sp" />
 
             <TextView
@@ -105,10 +105,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:background="#1b2027"
+                android:background="@drawable/chip_unselected"
                 android:padding="10dp"
                 android:text="Resource Packs"
-                android:textColor="#F3F5FA"
+                android:textColor="#7f8898"
                 android:textSize="14sp" />
         </LinearLayout>
     </HorizontalScrollView>

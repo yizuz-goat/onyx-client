@@ -3,7 +3,7 @@
     android:id="@+id/settingsRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#151a20"
+    android:background="#141b22"
     android:orientation="vertical"
     android:padding="22dp">
 
