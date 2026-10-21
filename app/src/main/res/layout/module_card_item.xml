@@ -1,128 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/visualsRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#12161b"
+    android:background="#12191f"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="← Back"
+        android:textColor="#F5F7FF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="VISUALS IN-GAME"
+        android:textColor="#F5F7FF"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_marginTop="20dp"
+        android:background="#1a2128"
+        android:orientation="vertical"
+        android:padding="18dp">
 
         <TextView
-            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:text="← Back"
-            android:textColor="#F3F5FA"
+            android:text="Preset: Vanilla"
+            android:textColor="#F5F7FF"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="monospace"
-            android:gravity="center"
-            android:text="MODULES"
-            android:textAllCaps="true"
-            android:textColor="#F3F5FA"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:background="#1b2027"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="#8B5CF6"
-        app:boxStrokeWidth="1dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/moduleSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1b2027"
-            android:hint="Search modules"
-            android:textColor="#F3F5FA"
-            android:textColorHint="#A8AFBD" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fillViewport="true"
-        android:scrollbars="none">
-
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp"
+            android:text="Brightness / fog / color / particle / quality profile"
+            android:textColor="#B3BBC7"
+            android:textSize="15sp" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/categoryAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#2a3039"
-                android:padding="10dp"
-                android:text="All"
-                android:textColor="#F3F5FA"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/categoryVisualHud"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="#1b2027"
-                android:padding="10dp"
-                android:text="Visual HUD"
-                android:textColor="#F3F5FA"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/categoryPerformance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="#1b2027"
-                android:padding="10dp"
-                android:text="Performance"
-                android:textColor="#F3F5FA"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/categoryPacks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="#1b2027"
-                android:padding="10dp"
-                android:text="Resource Packs"
-                android:textColor="#F3F5FA"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <ScrollView
+    <TextView
+        android:id="@+id/visualPreset"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="18dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/moduleListContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+        android:layout_height="64dp"
+        android:layout_marginTop="28dp"
+        android:background="#8B5CF6"
+        android:gravity="center"
+        android:text="APPLY VANILLA PRESET"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 </LinearLayout>
-
