@@ -8,72 +8,71 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onyx.client.core.ClientConfiguration
+import com.onyx.client.core.ModuleDefinition
 import com.onyx.client.core.ModuleRegistry
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var moduleRegistry: ModuleRegistry
-    private lateinit var settings: ClientConfiguration
+    private lateinit var appConfig: ClientConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         moduleRegistry = ModuleRegistry(this)
-        settings = ClientConfiguration(this)
-        renderHomeScreen()
+        appConfig = ClientConfiguration(this)
+        renderHome()
     }
 
-    private fun renderHomeScreen() {
+    private fun renderHome() {
         setContentView(R.layout.activity_main)
         applyStretchIfNeeded(findViewById(R.id.homeRoot))
 
-        findViewById<View>(R.id.launchButton).setOnClickListener {
-            Toast.makeText(this, "Launch flow ready for Bedrock integration.", Toast.LENGTH_SHORT).show()
+        findViewById<TextView>(R.id.launchButton).setOnClickListener {
+            Toast.makeText(this, "Launching GOONER Client", Toast.LENGTH_SHORT).show()
         }
 
-        findViewById<View>(R.id.modulesNav).setOnClickListener { renderModuleBrowser() }
-        findViewById<View>(R.id.hudsNav).setOnClickListener { renderHudEditor() }
-        findViewById<View>(R.id.visualsNav).setOnClickListener { renderVisuals() }
-        findViewById<View>(R.id.settingsNav).setOnClickListener { renderSettings() }
-        findViewById<View>(R.id.accountNav).setOnClickListener {
-            Toast.makeText(this, "Account profile screen is ready for the next pass.", Toast.LENGTH_SHORT).show()
+        findViewById<TextView>(R.id.modulesNav).setOnClickListener { renderModules() }
+        findViewById<TextView>(R.id.hudsNav).setOnClickListener { renderHud() }
+        findViewById<TextView>(R.id.visualsNav).setOnClickListener { renderVisuals() }
+        findViewById<TextView>(R.id.settingsNav).setOnClickListener { renderSettings() }
+        findViewById<TextView>(R.id.accountNav).setOnClickListener {
+            Toast.makeText(this, "Account screen ready for next pass", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun renderModuleBrowser() {
+    private fun renderModules() {
         setContentView(R.layout.activity_modules)
         applyStretchIfNeeded(findViewById(R.id.modulesRoot))
 
-        val searchField = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.moduleSearch)
         val container = findViewById<LinearLayout>(R.id.moduleListContainer)
-        val filters = mapOf(
-            R.id.categoryAll to "All",
-            R.id.categoryVisualHud to "Visual HUD",
-            R.id.categoryPerformance to "Performance",
-            R.id.categoryPacks to "Resource Packs"
-        )
+        val search = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.moduleSearch)
+        val allFilter = findViewById<TextView>(R.id.categoryAll)
+        val hudFilter = findViewById<TextView>(R.id.categoryVisualHud)
+        val performanceFilter = findViewById<TextView>(R.id.categoryPerformance)
+        val packsFilter = findViewById<TextView>(R.id.categoryPacks)
+        val backButton = findViewById<TextView>(R.id.backButton)
 
         var currentCategory = "All"
 
         fun renderList() {
-            val query = searchField.text?.toString()?.trim().orEmpty()
+            val query = search.text?.toString()?.trim().orEmpty()
             val filtered = moduleRegistry.getModules().filter { module ->
-                val byCategory = currentCategory == "All" || module.category == currentCategory
-                val byQuery = query.isEmpty() ||
+                val matchesCategory = currentCategory == "All" || module.category == currentCategory
+                val matchesQuery = query.isEmpty() ||
                     module.displayName.contains(query, true) ||
                     module.description.contains(query, true)
-                byCategory && byQuery
+                matchesCategory && matchesQuery
             }
 
             container.removeAllViews()
-
             if (filtered.isEmpty()) {
-                val emptyState = TextView(this).apply {
+                val empty = TextView(this).apply {
                     text = "No modules match this filter."
                     setTextColor(getColor(android.R.color.white))
                     textSize = 16f
                     setPadding(16, 32, 16, 0)
                 }
-                container.addView(emptyState)
+                container.addView(empty)
                 return
             }
 
@@ -92,52 +91,55 @@ class MainActivity : AppCompatActivity() {
                     moduleRegistry.toggle(module.id, isChecked)
                     status.text = "${module.category} • ${if (isChecked) "enabled" else "disabled"}"
                 }
-
                 container.addView(card)
             }
         }
 
-        fun applyCategorySelection(selected: String) {
+        fun applyFilter(selected: String) {
             currentCategory = selected
-            filters.forEach { (id, value) ->
-                val view = findViewById<TextView>(id)
-                view.isSelected = value == selected
+            val selectedView = when (selected) {
+                "All" -> allFilter
+                "Visual HUD" -> hudFilter
+                "Performance" -> performanceFilter
+                "Resource Packs" -> packsFilter
+                else -> allFilter
             }
+            listOf(allFilter, hudFilter, performanceFilter, packsFilter).forEach { it.isSelected = it == selectedView }
             renderList()
         }
 
-        filters.forEach { (id, value) ->
-            findViewById<TextView>(id).setOnClickListener { applyCategorySelection(value) }
-        }
-
-        searchField.setOnEditorActionListener { _, _, _ ->
-            renderList()
-            true
-        }
-        searchField.setOnKeyListener { _, _, _ ->
+        allFilter.setOnClickListener { applyFilter("All") }
+        hudFilter.setOnClickListener { applyFilter("Visual HUD") }
+        performanceFilter.setOnClickListener { applyFilter("Performance") }
+        packsFilter.setOnClickListener { applyFilter("Resource Packs") }
+        backButton.setOnClickListener { renderHome() }
+        search.setOnEditorActionListener { _, _, _ ->
             renderList()
             true
         }
+        search.setOnKeyListener { _, _, _ ->
+            renderList()
+            true
+        }
 
-        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHomeScreen() }
-        applyCategorySelection(currentCategory)
+        applyFilter(currentCategory)
     }
 
-    private fun renderHudEditor() {
+    private fun renderHud() {
         setContentView(R.layout.activity_hud)
         applyStretchIfNeeded(findViewById(R.id.hudRoot))
-        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHomeScreen() }
+        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHome() }
         findViewById<TextView>(R.id.hudToggle).setOnClickListener {
-            Toast.makeText(this, "HUD editor ready for widget calibration.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "HUD editor ready for widget tuning", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun renderVisuals() {
         setContentView(R.layout.activity_visuals)
         applyStretchIfNeeded(findViewById(R.id.visualsRoot))
-        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHomeScreen() }
+        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHome() }
         findViewById<TextView>(R.id.visualPreset).setOnClickListener {
-            Toast.makeText(this, "Vanilla preset applied to the client config.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Vanilla preset applied", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -146,23 +148,23 @@ class MainActivity : AppCompatActivity() {
         applyStretchIfNeeded(findViewById(R.id.settingsRoot))
 
         val stretchToggle = findViewById<SwitchMaterial>(R.id.stretchToggle)
-        stretchToggle.isChecked = settings.stretchEnabled
+        stretchToggle.isChecked = appConfig.stretchEnabled
         stretchToggle.setOnCheckedChangeListener { _, isChecked ->
-            settings.stretchEnabled = isChecked
+            appConfig.stretchEnabled = isChecked
             applyStretchIfNeeded(findViewById(R.id.settingsRoot))
         }
 
-        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHomeScreen() }
+        findViewById<TextView>(R.id.backButton).setOnClickListener { renderHome() }
         findViewById<TextView>(R.id.saveButton).setOnClickListener {
-            Toast.makeText(this, "Settings saved to the persistent client config.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun applyStretchIfNeeded(target: View?) {
-        val enabled = settings.stretchEnabled
+        val stretched = appConfig.stretchEnabled
         if (target == null) return
-        target.scaleX = if (enabled) 1.12f else 1f
-        target.scaleY = if (enabled) 1f else 1f
-        target.translationX = if (enabled) 30f else 0f
+        target.scaleX = if (stretched) 1.12f else 1f
+        target.translationX = if (stretched) 36f else 0f
     }
 }
+

@@ -22,3 +22,4 @@ class ClientConfiguration(private val context: Context) {
         return prefs.getBoolean("module_$id", default)
     }
 }
+
