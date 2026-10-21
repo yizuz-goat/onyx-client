@@ -1,80 +1,59 @@
-package com.onyx.client
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="#1a2129"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp">
 
-import android.content.Context
-import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.switchmaterial.SwitchMaterial
-import com.onyx.client.core.ModuleDefinition
-import com.onyx.client.core.ModuleRegistry
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-class MainActivity : AppCompatActivity() {
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    private lateinit var moduleRegistry: ModuleRegistry
+            <TextView
+                android:id="@+id/moduleTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FPS Counter"
+                android:textColor="#F4F7FB"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        moduleRegistry = ModuleRegistry(this)
-        renderHomeScreen()
-    }
+            <TextView
+                android:id="@+id/moduleSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Measure in-game render performance."
+                android:textColor="#9CA7B6"
+                android:textSize="13sp" />
 
-    private fun renderHomeScreen() {
-        setContentView(R.layout.activity_main)
+            <TextView
+                android:id="@+id/moduleStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Visual HUD • available"
+                android:textColor="#A78BFA"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        findViewById<View>(R.id.launchButton).setOnClickListener {
-            Toast.makeText(this, "Launch flow ready for Bedrock integration.", Toast.LENGTH_SHORT).show()
-        }
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/moduleToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
 
-        findViewById<View>(R.id.modulesNav).setOnClickListener {
-            renderModuleBrowser()
-        }
-
-        findViewById<View>(R.id.hudsNav).setOnClickListener {
-            Toast.makeText(this, "HUD browser coming next.", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<View>(R.id.visualsNav).setOnClickListener {
-            Toast.makeText(this, "Visuals screen coming next.", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<View>(R.id.settingsNav).setOnClickListener {
-            Toast.makeText(this, "Settings screen coming next.", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<View>(R.id.accountNav).setOnClickListener {
-            Toast.makeText(this, "Account profile screen coming next.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun renderModuleBrowser() {
-        setContentView(R.layout.activity_modules)
-
-        findViewById<View>(R.id.backButton).setOnClickListener {
-            renderHomeScreen()
-        }
-
-        val container = findViewById<android.widget.LinearLayout>(R.id.moduleListContainer)
-        container.removeAllViews()
-
-        moduleRegistry.getModules().forEach { module ->
-            val card = layoutInflater.inflate(R.layout.module_card_item, container, false)
-            val title = card.findViewById<TextView>(R.id.moduleTitle)
-            val subtitle = card.findViewById<TextView>(R.id.moduleSubtitle)
-            val status = card.findViewById<TextView>(R.id.moduleStatus)
-            val toggle = card.findViewById<SwitchMaterial>(R.id.moduleToggle)
-
-            title.text = module.displayName
-            subtitle.text = module.description
-            status.text = "${module.category} • ${module.availabilityStatus}"
-            toggle.isChecked = module.enabled
-            toggle.setOnCheckedChangeListener { _, isChecked ->
-                moduleRegistry.toggle(module.id, isChecked)
-                status.text = "${module.category} • ${if (isChecked) "enabled" else "disabled"}"
-            }
-
-            container.addView(card)
-        }
-    }
-}

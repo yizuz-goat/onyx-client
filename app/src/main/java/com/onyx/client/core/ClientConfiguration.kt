@@ -2,7 +2,6 @@ package com.onyx.client.core
 
 import android.content.Context
 import androidx.core.content.edit
-import java.util.LinkedHashMap
 
 data class ModuleDefinition(
     val id: String,
@@ -19,7 +18,7 @@ class ModuleRegistry(private val context: Context) {
             id = "fps_counter",
             displayName = "FPS Counter",
             category = "Visual HUD",
-            description = "Displays current measured FPS with configurable panel settings.",
+            description = "Measures current render performance and shows live FPS.",
             enabled = true,
             availabilityStatus = "available"
         ),
@@ -27,7 +26,7 @@ class ModuleRegistry(private val context: Context) {
             id = "coordinates",
             displayName = "Coordinates",
             category = "Visual HUD",
-            description = "Shows X, Y, and Z values when player state is available.",
+            description = "Displays X, Y, and Z values when player state is available.",
             enabled = true,
             availabilityStatus = "conditional"
         ),
@@ -35,7 +34,7 @@ class ModuleRegistry(private val context: Context) {
             id = "brightness",
             displayName = "Brightness",
             category = "Visuals",
-            description = "Applies safe visual brightness adjustments when supported.",
+            description = "Applies safe brightness adjustments when supported by the runtime.",
             enabled = false,
             availabilityStatus = "experimental"
         ),
@@ -43,7 +42,7 @@ class ModuleRegistry(private val context: Context) {
             id = "performance_dashboard",
             displayName = "Performance Dashboard",
             category = "Performance",
-            description = "Tracks runtime diagnostics, FPS and frame-time health.",
+            description = "Tracks FPS, frame time, and client diagnostics.",
             enabled = true,
             availabilityStatus = "available"
         ),
@@ -51,7 +50,17 @@ class ModuleRegistry(private val context: Context) {
             id = "resource_pack_manager",
             displayName = "Resource Packs",
             category = "Resource Packs",
-            description = "Lists and validates Bedrock-compatible packs."
+            description = "Validates and manages local Bedrock-compatible resource packs.",
+            enabled = true,
+            availabilityStatus = "available"
+        ),
+        ModuleDefinition(
+            id = "module_registry",
+            displayName = "Module Registry",
+            category = "Client Settings",
+            description = "Central registry for module lifecycle and persisted configuration.",
+            enabled = true,
+            availabilityStatus = "available"
         )
     )
 
@@ -65,11 +74,11 @@ class ModuleRegistry(private val context: Context) {
 
     private fun persistState() {
         val prefs = context.getSharedPreferences("module_registry", Context.MODE_PRIVATE)
-        val states = LinkedHashMap<String, Boolean>()
-        moduleList.forEach { states[it.id] = it.enabled }
         prefs.edit {
-            clear()
-            states.forEach { (key, value) -> putBoolean(key, value) }
+            moduleList.forEach { module ->
+                putBoolean(module.id, module.enabled)
+            }
         }
     }
 }
+
