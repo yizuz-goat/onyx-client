@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GOONER CLIENT</string>
-    <string name="subtitle">MINECRAFT BEDROCK EDITION</string>
+    <string name="tagline">GOON HARD. PLAY SMOOTH</string>
+    <string name="subtitle">MINECRAFT BEDROCK</string>
     <string name="launch_text">LAUNCH</string>
     <string name="default_profile">Default</string>
 </resources>
