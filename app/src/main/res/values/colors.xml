@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_dark">#07090D</color>
+    <color name="bg_panel">#121720</color>
+    <color name="bg_panel_alt">#191E2C</color>
+    <color name="purple_primary">#8B5CF6</color>
+    <color name="purple_soft">#A78BFA</color>
+    <color name="purple_deep">#6D28D9</color>
+    <color name="white">#F5F5FF</color>
+    <color name="muted">#A7A8BB</color>
+    <color name="muted_2">#787E93</color>
+    <color name="green">#34D399</color>
+    <color name="warning">#F59E0B</color>
+    <color name="orange">#F28C28</color>
+    <color name="shadow">#05070B</color>
+</resources>
